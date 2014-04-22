@@ -18,8 +18,27 @@
 # You can find a copy of the GNU General Public License in /LICENSE
 #
 
-# Library namespace
-module Twibobl
-end
+#
+# Main class for Twibobl
+#
+class Twibobl
+  def initialize(twitter)
+    @twitter = twitter
+  end
 
-require 'twibobl/twibobl'
+  def follow_new_followers
+    followers = @twitter.followers.to_a
+    followed = @twitter.friends.to_a
+    new_followers = followers - followed
+    new_followers.each { | nf | @twitter.follow(nf) }
+  end
+
+  def read_timeline(mark)
+    options = { count: 200, trim_user: true, exclude_replies: true,
+                include_rts: false, contributor_details: true }
+    all_tweets = @twitter.home_timeline(options)
+    # The following is a compensation for since_id not working as an option
+    # for home_timeline (it throws an could not authenticate error)
+    all_tweets.select { | tweet | tweet.id >= mark }
+  end
+end
