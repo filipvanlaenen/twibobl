@@ -20,7 +20,7 @@
 
 Gem::Specification.new do |gem|
   gem.name = 'twibobl'
-  gem.version = '0.1'
+  gem.version = '0.2a1'
   gem.authors = ['Filip van Laenen']
   gem.email = ['f.a.vanlaenen@ieee.org']
 
